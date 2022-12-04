@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dibujar un circulo en la posición en la cual preciones</title>
+</head>
+<body>
+    <p>Con el click izquierod dibujar un circulo y con el clik derecho cambias de color.</p>
+    <canvas width="600" height="400"></canvas>
+
+    <script>
+        var pantalla = document.querySelector("canvas");
+        var pincel = pantalla.getContext("2d");
+        var posicion_color = 0;
+        let mis_colores = ['blue', 'red', 'green' ];
+        
+        pincel.fillStyle = 'grey';
+        pincel.fillRect( 0, 0, 600, 400 );
+
+        function mostrarAlerta( evento ) {
+            var x = evento.pageX - pantalla.offsetLeft; //pos x
+            var y = evento.pageY - pantalla.offsetTop; //pos y
+            var d = new Date(); //crea una variable de tipo date
+            var hora = checkTime(d.getHours()) + ":" + checkTime(d.getMinutes()) + ":" + checkTime(d.getSeconds());
+            //Verifica si el número de las horas, minutos o segundos, tiene un solo dígito, 
+            //caso positivo le adiciona el cero en la frente para obtener el formato deseado 00:00:00
+            function checkTime(i){
+                if (i<10){
+                    i="0" + i;
+                }
+                return i;
+            }
+            dibjujarCirculo( x, y );
+        }
+
+        function cambiarColor() {
+            if( posicion_color == 3 ) {
+                posicion_color = 0;
+            }
+            posicion_color++;
+        }
+
+        function dibjujarCirculo( x, y ) {
+            pincel.fillStyle = mis_colores[ posicion_color ];
+            pincel.beginPath();
+            pincel.arc( x, y, 20, 0, 2 * 3.14 );
+            pincel.fill();
+        }
+
+        pantalla.onclick = mostrarAlerta;
+
+        pantalla.oncontextmenu = cambiarColor;
+    </script>
+</body>
+</html>
