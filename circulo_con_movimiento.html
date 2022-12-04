@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Circulo en movimiento circular por la pantalla</title>
+</head>
+<body>
+    <canvas width="600" height="400"></canvas>
+    <script>
+        var pantalla = document.querySelector("canvas");
+        var pincel = pantalla.getContext("2d");
+        var color = [ 'yellow', 'pink', 'red', 'black', 'orange'];
+        var indiceColor = 0;
+
+        pincel.fillStyle = 'lightgrey';
+        pincel.fillRect( 0, 0, 600, 400) ;
+
+        function dibujarCirculo( x, y, tamanio, color ) {
+            pincel.fillStyle = color;
+            pincel.beginPath();
+            pincel.arc( x, y, tamanio, 0 , 2 * Math.PI );
+            pincel.fill();
+        }
+
+        function limpiarPantalla() {
+            pincel.clearRect( 0, 0, 300, 400);
+        }
+
+        var x = 0;
+        
+        function moverCirculo() {
+            if( x < 600 ) {
+                limpiarPantalla();
+                dibujarCirculo( x, 40, 10, color[ indiceColor ] );
+                x++;
+            } else {
+                x = 0;
+                indiceColor++;
+            }
+            if( indiceColor == 5 ) {
+                indiceColor = 0;
+            }
+        }
+
+        setInterval( moverCirculo, 5 );
+    </script>
+</body>
+</html>
